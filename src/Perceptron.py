@@ -87,6 +87,6 @@ class Perceptron:
     def logic(self, data, test, l, n):
         predctions = list()
         for row in test:
-            predction = self.predict(row, self.estimate_weights(data, l, n))#weights)
+            predction = self.predict(row, self.estimate_weights(data, l, n))
             predctions.append(predction)
         return(predctions)
