@@ -28,6 +28,15 @@ class Perceptron:
                 if row:
                     data.append(row)
         return data
+    
+    def store(self, vector):
+        with open('help_file.csv', 'w') as file:
+            file.write(f'{vector}\n')
+            with open('training-data.csv', 'r') as help:
+                csv_reader = help.readlines()
+                for row in csv_reader:
+                    if row:
+                        file.write(row)
 
     def column_to_float(self, data, column):
         for row in data:
