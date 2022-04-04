@@ -1,12 +1,11 @@
 from csv import reader
+from random import randrange
 
 class Perceptron:
 
     def __init__(self, file_name, accuracy):
         self.file_name = file_name
         self.accuracy = accuracy
-        print('You\'ve created a perceptron')
-        # get_data_from_file(file_name)
 
     def predict(self, line, weights):
         activasion = weights[0]
@@ -29,4 +28,68 @@ class Perceptron:
                 if row:
                     data.append(row)
         return data
-    
+
+    def column_to_float(self, data, column):
+        for row in data:
+            row[column] = float(row[column].strip())
+
+    def column_to_int(self, data, column):
+        unique = set(row[column] for row in data)
+        end = dict()
+
+        for i, q in enumerate(unique):
+            end[q] = i
+        for row in data:
+            row[column] = end[row[column]]
+        return end
+
+    def split_data(self, data, parts):
+        split = list()
+        l_data = list(data)
+        # length = int(len(data)/parts)
+
+        for i in range(parts):
+            tmp = list()
+            while len(tmp) < parts:
+                place = randrange(len(l_data))
+                tmp.append(l_data.pop(place))
+            split.append(tmp)
+        return split
+
+    def correct_algorithm(self, data, algorithm, n_parts, *args):
+        parts = self.split_data(data, n_parts)
+        hits = list()
+        for part in parts:
+            work_set = list(parts)
+            work_set.remove(part)
+            work_set = sum(work_set, [])
+            check_set = list()
+            for row in part:
+                copy = list(row)
+                check_set.append(copy)
+                copy[-1] = None
+            shoot = algorithm(work_set, check_set, *args)
+            real = [row[-1] for row in part]
+            accuracy = self.calculate_accuracy(real, shoot)
+            hits.append(accuracy)
+        return hits
+
+    def estimate_weights(self, data, l, n):
+        weights = [0.0 for i in range(len(data[0]))]
+
+        for ns in range(n):
+            for row in data:
+                prediction = self.predict(row, weights)
+                error = row[-1] - prediction
+                weights[0] += l*error
+                for i in range(len(row)-1):
+                    weights[i+1] += l*error*row[i]
+        return weights
+
+    def logic(self, data, test, l, n):
+        predctions = list()
+        weights = self.estimate_weights(data, l, n)
+        for row in test:
+            predction = self.predict(row, weights)
+            predctions.append(predction)
+        return(predctions)
