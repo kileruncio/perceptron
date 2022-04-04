@@ -37,6 +37,9 @@ class Perceptron:
                 for row in csv_reader:
                     if row:
                         file.write(row)
+    
+    def is_hit(self, scores):
+        print('Correct guess' if sum(scores)/float(len(scores)) > 69.5 else 'Incorrect guess')
 
     def column_to_float(self, data, column):
         for row in data:

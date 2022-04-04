@@ -18,10 +18,10 @@ scores = perceptron.correct_algorithm(data, 5 if file.find("test-data.csv") != -
 
 print(f'\nAccuracy: {(sum(scores)/float(len(scores)))}%\n')
 
+perceptron.file_name = 'help_file.csv'
 vector = input('Podaj przykladowy vektor do sprawdzenia, jesli chcesz zakonczyc wpisz end\n')
 
 while vector != 'end':
-    perceptron.file_name = 'help_file.csv'
     perceptron.store(vector)
 
     data = perceptron.get_data_from_file()
@@ -32,5 +32,5 @@ while vector != 'end':
     perceptron.column_to_int(data, len(data[0])-1)
     scores = perceptron.correct_algorithm(data, 5, precision, 100)
 
-    print('Correct guess' if sum(scores)/float(len(scores)) > 69.5 else 'Incorrect guess')
+    perceptron.is_hit(scores)
     vector = input('Podaj przykladowy vektor do sprawdzenia, jesli chcesz zakonczyc wpisz end\n')
