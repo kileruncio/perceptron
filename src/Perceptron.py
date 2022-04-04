@@ -46,8 +46,6 @@ class Perceptron:
     def split_data(self, data, parts):
         split = list()
         l_data = list(data)
-        # length = int(len(data)/parts)
-
         for i in range(parts):
             tmp = list()
             while len(tmp) < parts:
@@ -56,7 +54,7 @@ class Perceptron:
             split.append(tmp)
         return split
 
-    def correct_algorithm(self, data, algorithm, n_parts, *args):
+    def correct_algorithm(self, data, n_parts, *args):
         parts = self.split_data(data, n_parts)
         hits = list()
         for part in parts:
@@ -68,7 +66,7 @@ class Perceptron:
                 copy = list(row)
                 check_set.append(copy)
                 copy[-1] = None
-            shoot = algorithm(work_set, check_set, *args)
+            shoot = self.logic(work_set, check_set, *args)
             real = [row[-1] for row in part]
             accuracy = self.calculate_accuracy(real, shoot)
             hits.append(accuracy)
@@ -88,8 +86,7 @@ class Perceptron:
 
     def logic(self, data, test, l, n):
         predctions = list()
-        weights = self.estimate_weights(data, l, n)
         for row in test:
-            predction = self.predict(row, weights)
+            predction = self.predict(row, self.estimate_weights(data, l, n))#weights)
             predctions.append(predction)
         return(predctions)
