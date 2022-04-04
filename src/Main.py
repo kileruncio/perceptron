@@ -14,6 +14,6 @@ for i in range(len(data[0])-1):
 
 perceptron.column_to_int(data, len(data[0])-1)
 
-scores = perceptron.correct_algorithm(data, 4 if file.find("test-data.csv") != -1 else 2, precision, 600)
+scores = perceptron.correct_algorithm(data, 5 if file.find("test-data.csv") != -1 else 2, precision, 600)
 
 print(f'Accuracy: {(sum(scores)/float(len(scores)))}%')
